@@ -1,0 +1,22 @@
+plugins {
+  id 'java'
+  id 'application'
+}
+
+mainClassName = 'clicks.Producer'
+
+repositories {
+    mavenCentral()
+    maven { url "http://packages.confluent.io/maven/" }
+    jcenter()
+}
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+dependencies {
+    implementation group: 'org.apache.kafka', name: 'kafka-clients', version: '2.6.1'
+    implementation group: 'io.confluent', name: 'monitoring-interceptors', version: '7.0.1'
+    implementation group: 'io.confluent', name: 'kafka-protobuf-serializer', version: '7.0.1'
+    implementation group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.30'
+}

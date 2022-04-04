@@ -1,2 +1,0 @@
-ksql-intro has no docker-compose.yml file of its own. 
-See ~/confluent-streams/docker-compose.yml file for details.

@@ -1,0 +1,12 @@
+syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+
+package io.confluent.training.proto;
+option java_outer_classname = "ClicksCountProtos";
+
+message ClicksCount {
+  google.protobuf.StringValue session_start_ts = 1;
+  google.protobuf.StringValue session_end_ts = 2;
+  google.protobuf.Int64Value click_count = 3;
+  google.protobuf.Int64Value session_length_ms = 4;
+}

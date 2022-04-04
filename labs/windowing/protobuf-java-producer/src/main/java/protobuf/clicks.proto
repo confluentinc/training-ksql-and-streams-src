@@ -1,0 +1,10 @@
+syntax = "proto3";
+package clicks;
+
+option java_package = "clicks.ClicksProtos";
+
+message Clicks {
+  string ip = 1;
+  int64 timestamp = 2;
+  string url = 3;
+}
