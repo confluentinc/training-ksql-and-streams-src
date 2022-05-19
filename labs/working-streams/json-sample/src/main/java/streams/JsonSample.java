@@ -45,6 +45,12 @@ public class JsonSample {
         setupShutdownHook(streams);
     }
 
+    private static Serde<TempReading> getJsonSerde(){
+
+        // TODO: create a JSON serde for the TempReading class using KafkaJson serdes
+
+    }
+
     private static Topology getTopology(){
         StreamsBuilder builder = new StreamsBuilder();
 
@@ -52,12 +58,6 @@ public class JsonSample {
         final Serde<TempReading> temperatureSerde = getJsonSerde();
 
         // TODO: here we construct the Kafka Streams topology
-
-    }
-
-    private static Serde<TempReading> getJsonSerde(){
-        
-        // TODO: create a JSON serde for the TempReading class using KafkaJson serdes
 
     }
 

@@ -1,21 +1,21 @@
 package streams;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
-import org.apache.kafka.common.serialization.Serializer;
+import io.confluent.kafka.serializers.KafkaJsonDeserializer;
+import io.confluent.kafka.serializers.KafkaJsonSerializer;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.common.serialization.Serializer;
 import org.apache.kafka.streams.KafkaStreams;
-import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.StreamsBuilder;
+import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.Topology;
+import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.Produced;
-import io.confluent.kafka.serializers.KafkaJsonSerializer;
-import io.confluent.kafka.serializers.KafkaJsonDeserializer;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 public class JsonSample {
     
@@ -45,21 +45,6 @@ public class JsonSample {
         setupShutdownHook(streams);
     }
 
-    private static Topology getTopology(){
-        StreamsBuilder builder = new StreamsBuilder();
-
-        final Serde<String> stringSerde = Serdes.String();
-        final Serde<TempReading> temperatureSerde = getJsonSerde();
-
-        // TODO: here we construct the Kafka Streams topology
-        builder.stream("temperatures-topic", Consumed.with(stringSerde, temperatureSerde))
-            .filter((key,value) -> value.temperature > 25)
-            .to("high-temperatures-topic", Produced.with(stringSerde, temperatureSerde));
-
-        Topology topology = builder.build();
-        return topology;
-    }
-
     private static Serde<TempReading> getJsonSerde(){
         // TODO: create the JSON serde
         Map<String, Object> serdeProps = new HashMap<>();
@@ -72,6 +57,21 @@ public class JsonSample {
         temperatureDeserializer.configure(serdeProps, false);
 
         return Serdes.serdeFrom(temperatureSerializer, temperatureDeserializer);
+    }
+
+    private static Topology getTopology(){
+        StreamsBuilder builder = new StreamsBuilder();
+
+        final Serde<String> stringSerde = Serdes.String();
+        final Serde<TempReading> temperatureSerde = getJsonSerde();
+
+        // TODO: here we construct the Kafka Streams topology
+        builder.stream("temperatures-topic", Consumed.with(stringSerde, temperatureSerde))
+                .filter((key,value) -> value.temperature > 25)
+                .to("high-temperatures-topic", Produced.with(stringSerde, temperatureSerde));
+
+        Topology topology = builder.build();
+        return topology;
     }
 
     private static Properties getConfig(){
