@@ -131,3 +131,15 @@ services:
       kafka-topics --bootstrap-server kafka:9092 --create --topic _confluent-monitoring --partitions 12 --replication-factor 1 --config retention.ms=259200000 --config message.timestamp.type=LogAppendTime ;
       true'
 
+  tools:
+    image: cnfltraining/training-tools:6.0
+    restart: always
+    hostname: tools
+    container_name: tools
+    restart: always
+    volumes:
+      - .:/root/confluent-streams/labs/using-ksql
+    working_dir: /root/confluent-streams/labs/using-ksql
+    command: /bin/bash
+    tty: true
+
